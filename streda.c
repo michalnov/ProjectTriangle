@@ -3,28 +3,6 @@
 	Date:	11.10.2017
 */
 
-
-/*
-Uloha1:
-vstup: cisla a,b,c - strany trojuholnika
-vystup: ano / nie
-program zisti ci trojuholnik so stranami a,b,c sa da zostrojit
-Vid trojuholnikova nerovnost - sucet lub. 2 stran v trojuholniku > tretia strana
-Uloha2:
-vstup: cisla a,b,c - strany trojuholnika
-vystup: ano / nie
-program zisti ci trojuholnik so stranami a,b,c je pravouhly
-Vid pytagorova veta - nevieme ktora strana moze byt prepona,treba zistit
-Uloha3:
-vstup: den, mesiac
-vystup: znamenie vo zverokruhu (slovom)
-uzivate zada 2 cisla, den a mesiac. Program overi ci dany den a mesiac existuje
-(kedze nezadavame rok, beriem do uvahy ze 29.2. existuje vzdy)
-Ak su vstupy spravne zisti a vypise znamenie zverokruhu na dany den
-Vid: kalendar
-Odporucam precvicit prikazy switch a v nom prikaz if
-*/
-
 #include <stdio.h>
 #include <time.h>
 #include <math.h>
@@ -44,15 +22,16 @@ int main(int argc, char const *argv[])
 {
 	
 	int mode = 1;
-	char task[7] = {0,0,0,0,0,0,0};
+	char task[10] = {0,0,0,0,0,0,0,0,0,0};
 
 	if (argc == 1)
 	{
 		do
 		{
+			HelpMenu();
 			printf("Select task: \n");
 			scanf("%s", &task[0]);
-			if (strcmp(task, "repeat") == 0 || strcmp(task, "r") == 0)
+			if (strcmp(task, "repeat") == 0 )
 			{
 				mode = 0;
 			}
@@ -61,31 +40,31 @@ int main(int argc, char const *argv[])
 				mode = 1;
 				return 0;
 			}
-			else if (strcmp(task, "task1") == 0 || strcmp(task, "task 1") == 0 || strcmp(task, "1") == 0)
+			else if (strcmp(task, "task1") == 0 || strcmp(task, "triangle") == 0 || strcmp(task, "t") == 0)
 			{	
 				task1();
 			}
-			else if (strcmp(task, "task2") == 0 || strcmp(task, "task 2") == 0 || strcmp(task, "2") == 0)
+			else if (strcmp(task, "task2") == 0 || strcmp(task, "rectangular") == 0 || strcmp(task, "r") == 0)
 			{
 				task2();
 			}
-			else if (strcmp(task, "task3") == 0 || strcmp(task, "task 3") == 0 || strcmp(task, "3") == 0)
+			else if (strcmp(task, "task3") == 0 || strcmp(task, "sign") == 0 || strcmp(task, "s") == 0)
 			{
 				task3();
 			}
 		} while (mode==0);
 	}
-	else if (argc == 2)
+	else if (argc == 2)    //Pri spusteni v Terminale s parametrom
 	{
-		if (strcmp(argv[1],"-1")==0)
+		if (strcmp(argv[1],"-1")==0 || strcmp(argv[1],"-t")==0)
 		{	
 			task1();
 		}
-		else if (strcmp(argv[1],"-2")==0)
+		else if (strcmp(argv[1],"-2")==0 || strcmp(argv[1],"-r")==0)
 		{
 			task2();
 		}
-		else if (strcmp(argv[1],"-3") == 0)
+		else if (strcmp(argv[1],"-3") == 0 || strcmp(argv[1],"-s")==0)
 		{
 			task3();
 		}		
@@ -97,7 +76,7 @@ int main(int argc, char const *argv[])
 	return 0;
 }									               	// END of main
 
-int task1(){
+int task1(){						//Vstup pre funkciu IsTriangle (Overenie ci moze byt trojuholnik zostrojeny)
 	double a=0, b=0, c=0;
 	printf("Please enter the sides of triangle\n");
 	printf("side a = ");
@@ -110,8 +89,8 @@ int task1(){
 	IsTriangle(a, b, c);
 }
 
-int task2(){
-	int a=0, b=0, c=0;
+int task2(){						//Overenie ci zo zadanych vstupov moze byt zostrojeny trojuholnik
+	int a=0, b=0, c=0;				// ak ano tak overujem ci je mozne zostrojit pravouhly trojuholnik
 	printf("Please enter the sides of triangle\n");
 	printf("side a = ");
 	scanf("%d", &a);
@@ -122,9 +101,13 @@ int task2(){
 	printf("\n");
 	if (IsTriangle(a, b, c) == 0)
 	{
-		if (a*a+b*b== c*c || a*a+c*c== b*b || c*c+b*b ==a*a)
+		if (a*a+b*b == c*c || a*a+c*c == b*b || c*c+b*b == a*a)
 		{
 			printf("Right-angled triange CAN be constructed\n");
+		}
+		else
+		{
+			printf("Right-angled triangle CANOT be constructed\n");
 		}
 	}
 	else
@@ -133,8 +116,8 @@ int task2(){
 	}
 }
 
-int task3(){
-	int dd = 0, mm = 0;
+int task3(){					//Vstup pre funkciu Zodiac ktora zistuje v znamenie v zverokruhu
+	int dd = 0, mm = 0;			// pre zadany den a mesiac
 	printf("Please enter the day:\n");
 	scanf("%d", &dd);
 	printf("please enter the month\n");
@@ -306,36 +289,38 @@ int IsTriangle(double a, double b, double c){		//test if it is possible to creat
 	if (a+b>c && a+c>b && b+c>a)
 	{
 		printf("It is possible to construct the triangle\n");
-		return 1;
+		return 0;
 	}
 	else
 		printf("You can not construct the triangle with this input\n");
-	return 0;
+	return 1;
 }
 
 void HelpMenu(){
 	system("clear");
-	printf("This help message is show nebacuse you probably choose wrong mode\n \nMode selection:\n");
-	printf("task1  or 1    - Mode for test if it is possible to create triangle\n");
-	printf("task2  or 2    - Mode for test if it is possible to create right-angled triangle\n");
-	printf("task3  or 3    - Mode for resolve zodiac sign from inserted date\n");
-	printf("repeat or r    - repeat till exit command\n");
-	printf("exit   or 0    - exit program if you are in repeat mode\n");
+	//printf("This help message is show nebacuse you probably choose wrong mode\n \nMode selection:\n");
+	printf("Arguments selection:\n");
+	printf("triangle 	 or t    - Mode for test if it is possible to create triangle\n");
+	printf("rectangular 	 or r    - Mode for test if it is possible to create right-angled triangle\n");
+	printf("signs 		 or s    - Mode for resolve zodiac sign from inserted date\n");
+	printf("repeat 			     - repeat till exit command\n");
+	printf("exit   		 or 0    - exit program if you are in repeat mode\n");
 }
 
 
-void HelpMenuTerminal(){
+void HelpMenuTerminal(){		//vstup pre terminal s parametrom aj s hodnotami nieje dokončený
 	system("clear");
-	printf("This help message is show nebacuse you probably choose wrong mode\n \nArguments selection:\n");
-	printf("-1         - Mode for test if it is possible to create triangle\n");
+	printf("This help message is show nebacuse you probably choose wrong mode\n");
+	printf("\nArguments selection:\n");
+	printf("-t   or -1      - Mode for test if it is possible to create triangle\n");
 	//printf("Usage:     -1 a b c\n");
 	//printf("             a, b, c, replace with numbers wich represent sides of triangle\n\n");
 
-	printf("-2         - Mode for test if it is possible to create right-angled triangle\n");
+	printf("-r   or -2      - Mode for test if it is possible to create right-angled triangle\n");
 	//printf("Usage:     -2 a b c\n");
 	//printf("             a, b, c, replace with numbers wich represent sides of triangle\n\n");
 
-	printf("-3         - Mode for find zodiac sing acording date\n");
+	printf("-s   or -3      - Mode for find zodiac sing acording date\n");
 	//printf("Usage:     -3 DD MM\n");
 	//printf("              DD replace with number of day\n");
 	//printf("              MM replace with number of month\n\n");
