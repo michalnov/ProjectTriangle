@@ -76,19 +76,18 @@ int main()
 
 
    int i = 0, KePo[20], count1 = 0, salarybetween[20], count2 = 0, ageall = 0, count3 = 0, count4 = 0, oldest = 0, count5 = 0;
-   float salaryAV = 0;
+   float salaryAV = 0, ageAV = 0;
    int maxsalary = 0, ascending[20], swap, j;
 
    for (i = 0; i < 20; i++) {
      ascending[i] = i;
    }
 
-   for (i = 0; i < 20; i++) {
-     printf("%s %f\n", student[ascending[i]].name, student[ascending[i]].salary);
-   }
+
 
    for (i = 0; i < 20; i++)
    {
+     // 5. calculate average age of all students
      ageall = ageall + student[i].age;
      if (student[i].age < 30)    // 6. calculate average salary of student that are under 30 years old
      {
@@ -128,9 +127,24 @@ int main()
        count5++;// 9. write down number of student that their name is longer than 7 characters
      }
    }
-
-
-
+   printf("\n%s\n", "Highest salary:");
+   printf("%s with salary: %.2f\n", student[maxsalary].name, student[maxsalary].salary);
+   printf("\n%s\n", "Students from Kosice and Presov:");
+   for (i = 0; i < count1; i++) {
+     printf("%s From: %s\n", student[KePo[i]].name, student[KePo[i]].address.city);
+   }
+   printf("\n%s\n", "Salary is between 1000 and 1300:");
+   for (i = 0; i < count2; i++) {
+     printf("%s  salary: %.2f\n", student[salarybetween[i]].name, student[salarybetween[i]].salary);
+   }
+   printf("\n%s", "average age of all students is:");
+   ageAV = (float)ageall / 20;
+   printf("%.2f\n", ageAV);
+   salaryAV = salaryAV / count3;
+   printf("%s %.2f\n\n", "Average salary of students under 30 years is:",salaryAV);
+   printf("%s %d %s\n\n", "There are ", count4, "students that are not from Kosice");
+   printf("%s %s %s %d %s\n\n", "The oldes student is:", student[oldest].name, "with ", student[oldest].age, "years.");
+   printf("%s %d %s \n\n", "there are ", count5, "students wich names are longer than 7 characters");
 
    for (i = 0; i < 20; i++) {
      for (j = 0; j <  20 -1 -i; j++) {
@@ -141,4 +155,7 @@ int main()
        }
      }
    }
+   for (i = 0; i < 20; i++) {
+       printf("%s %.2f\n", student[ascending[i]].name, student[ascending[i]].salary);
+    }
 }
