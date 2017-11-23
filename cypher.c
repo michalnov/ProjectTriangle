@@ -56,6 +56,11 @@ int main(int argc, char const *argv[]) {
       }
       fputc(c, fw);
     }
+    else
+    {
+      fputc(c, fw);
+    }
+
   }
   fclose(fw);
   fclose(fr);
