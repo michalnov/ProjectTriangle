@@ -13,17 +13,19 @@ int main(int argc, char const *argv[]) {
 		printf("File error during opening KEY file");
 		return 1;
 	}
-  char key[38][2], swap;
+  char key[38][2], swap, swap2;
   i = 0;
-  while ((fscanf(fr_key, "%c%c", &key[i][0], &key[i][1]) ) != EOF) {
+  while ((fscanf(fr_key, "%c%c%c%c", &key[i][0], &swap, &key[i][1], &swap2) ) != EOF) {
     i++;
     if (i > 37) {
       break;
     }
   }
+  i--;
   fclose(fr_key);
   fr_data = fopen("tocrypt.txt", "r");
   fw_output = fopen("cypher-text.data", "w");
+
   if (fr_data == NULL)
 	{
 		printf("File error during opening DATA file");
@@ -35,33 +37,32 @@ int main(int argc, char const *argv[]) {
     fclose(fr_data);
 		return 1;
   }
+
 	else
 	{
     while ((swap = fgetc(fr_data)) != EOF) {
       upper = 0;
-      j = 0;
-      if (isalnum(swap) == 0) {
-        if (islower(swap) == 0) {
+      if (isalnum(swap)) {
+        if (islower(swap)) {
           toupper(swap);
           upper = 1;
         }
         for (j = 0; j < i; j++) {
-          if (swap == key[i][1]) {
-            swap = key[i][0];
+          if (swap == key[j][1]) {
+            swap = key[j][0];
+            break;
           }
-          else {}
         }
         if (upper == 1) {
           tolower(swap);
         }
       }
-      else
-      {}
+      else{}
       fputc(swap, fw_output);
     }
   }
   fclose(fw_output);
   fclose(fr_data);
-  printf("DONE");
+  printf("\nDONE\n");
   return 0;
 }
