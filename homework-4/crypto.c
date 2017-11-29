@@ -6,14 +6,18 @@
 
 int main(int argc, char const *argv[]) {
   FILE *fr_key, *fr_data, *fw_output;
-  fr_key = fopen("cypher-key.data", "r");
+  char opentext[50], outfile[50], keyfile[50];
+  
+  printf("Enter key file name: ");
+  scanf("%s", keyfile);
+  fr_key = fopen(keyfile, "r");
   int i = 0, j = 0, upper = 0;
   if(fr_key == NULL)
 	{
 		printf("File error during opening KEY file");
 		return 1;
 	}
-  char key[90], swap, swap2;
+  char key[120], swap, swap2;
   i = 0;
   while ((swap = fgetc(fr_key)) != EOF) {
     if (isalpha(swap) || isdigit(swap)) {
@@ -24,7 +28,7 @@ int main(int argc, char const *argv[]) {
   }
   i--;
   fclose(fr_key);
-  char opentext[50], outfile[50];
+  
   printf("Enter input file name: ");
   scanf("%s", opentext);
   printf("Enter output file name: ");
