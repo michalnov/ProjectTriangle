@@ -10,9 +10,8 @@ int main(int argc, char const *argv[]) {
   
   printf("Enter key file name: ");
   scanf("%s", keyfile);
-  fr_key = fopen(keyfile, "r");
-  int i = 0, j = 0, upper = 0;
-  int i = 0, j = 0, upper = 0;
+  fr_key = fopen(keyfile , "r");
+  int i = 0, j = 0;
   if(fr_key == NULL)
 	{
 		printf("File error during opening KEY file");
@@ -27,7 +26,6 @@ int main(int argc, char const *argv[]) {
     }
   }
   fclose(fr_key);
-  char opentext[50], outfile[50];
   printf("Enter input file name: ");
   scanf("%s", opentext);
   printf("Enter output file name: ");
