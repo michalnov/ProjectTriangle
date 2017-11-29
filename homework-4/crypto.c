@@ -24,8 +24,13 @@ int main(int argc, char const *argv[]) {
   }
   i--;
   fclose(fr_key);
-  fr_data = fopen("tocrypt.txt", "r");
-  fw_output = fopen("cypher-text.data", "w");
+  char opentext[50], outfile[50];
+  printf("Enter input file name: ");
+  scanf("%s", opentext);
+  printf("Enter output file name: ");
+  scanf("%s", outfile);  
+  fr_data = fopen(opentext , "r");
+  fw_output = fopen(outfile , "w");
 
   if (fr_data == NULL)
 	{

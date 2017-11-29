@@ -18,13 +18,17 @@ int main(int argc, char const *argv[]) {
   while ((swap = fgetc(fr_key)) != EOF) {
     if (isalpha(swap) || isdigit(swap)) {
       key[i] = swap;
-      //printf(" %c ", swap);
       i++;
     }
   }
   fclose(fr_key);
-  fr_data = fopen("cypher-text.data", "r");
-  fw_output = fopen("decyphered-2.txt", "w");
+  char opentext[50], outfile[50];
+  printf("Enter input file name: ");
+  scanf("%s", opentext);
+  printf("Enter output file name: ");
+  scanf("%s", outfile);  
+  fr_data = fopen(opentext , "r");
+  fw_output = fopen(outfile , "w");
   if (fr_data == NULL)
 	{
 		printf("File error during opening DATA file");
@@ -39,7 +43,6 @@ int main(int argc, char const *argv[]) {
 	else
 	{
     while ((swap = fgetc(fr_data)) != EOF) {
-      upper = 0;
       if (isalnum(swap)) {
         if (islower(swap)) {
           for (j = 1; j < i; j+=2) {
@@ -58,13 +61,7 @@ int main(int argc, char const *argv[]) {
             }
           }
         }
-        if (upper == 1) {
-          tolower(swap);
-        }
-        else
-        {}
       }
-      else{}
       fputc(swap, fw_output);
     }
   }
