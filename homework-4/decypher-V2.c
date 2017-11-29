@@ -13,12 +13,13 @@ int main(int argc, char const *argv[]) {
 		printf("File error during opening KEY file");
 		return 1;
 	}
-  char key[38][2], swap, swap2;
+  char key[90], swap, swap2;
   i = 0;
-  while ((fscanf(fr_key, "%c%c%c%c", &key[i][0], &swap, &key[i][1], &swap2) ) != EOF) {
-    i++;
-    if (i > 37) {
-      break;
+  while ((swap = fgetc(fr_key)) != EOF) {
+    if (isalpha(swap) || isdigit(swap)) {
+      key[i] = swap;
+      //printf(" %c ", swap);
+      i++;
     }
   }
   fclose(fr_key);
@@ -39,28 +40,36 @@ int main(int argc, char const *argv[]) {
 	{
     while ((swap = fgetc(fr_data)) != EOF) {
       upper = 0;
-      j = 0;
       if (isalnum(swap)) {
         if (islower(swap)) {
-          toupper(swap);
-          upper = 1;
-        }
-        for (j = 0; j < i; j++) {
-          if (swap == key[j][0]) {
-            swap = key[j][1];
+          for (j = 1; j < i; j+=2) {
+            if (swap == tolower(key[j])) {
+              swap = tolower(key[j-1]);
+              break;
+            }
           }
-          else {}
+        }
+        else
+        {
+          for (j = 1; j < i; j+=2) {
+            if (swap == key[j]) {
+              swap = key[j-1];
+              break;
+            }
+          }
         }
         if (upper == 1) {
           tolower(swap);
         }
+        else
+        {}
       }
-      else
-      {}
+      else{}
       fputc(swap, fw_output);
     }
   }
   fclose(fw_output);
   fclose(fr_data);
+  printf("\nDONE\n");
   return 0;
 }
