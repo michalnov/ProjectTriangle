@@ -6,8 +6,13 @@
 
 int main(int argc, char const *argv[]) {
   FILE *fr_key, *fr_data, *fw_output;
-  char opentext[50], outfile[50], keyfile[50];
-  
+  char opentext[50], outfile[50], keyfile[50], mode;
+  printf("\nDo you want to encrypt or decrypt file?\n");
+  do {
+    printf("enter e for encryption\nenter d for decryption\n");
+    scanf("%c", &mode);
+  } while(mode != 'e' && mode != 'd');
+
   printf("Enter key file name: ");
   scanf("%s", keyfile);
   fr_key = fopen(keyfile , "r");
@@ -25,16 +30,14 @@ int main(int argc, char const *argv[]) {
       i++;
     }
   }
-  i--;
   fclose(fr_key);
-  
+
   printf("Enter input file name: ");
   scanf("%s", opentext);
   printf("Enter output file name: ");
-  scanf("%s", outfile);  
+  scanf("%s", outfile);
   fr_data = fopen(opentext , "r");
   fw_output = fopen(outfile , "w");
-
   if (fr_data == NULL)
 	{
 		printf("File error during opening DATA file");
@@ -46,15 +49,23 @@ int main(int argc, char const *argv[]) {
     fclose(fr_data);
 		return 1;
   }
-
 	else
 	{
     while ((swap = fgetc(fr_data)) != EOF) {
       if (isalnum(swap)) {
         if (islower(swap)) {
           for (j = 0; j < i; j+=2) {
+            if (j == 0 && mode == 'd') {
+              j++;
+            }
             if (swap == tolower(key[j])) {
-              swap = tolower(key[j+1]);
+              if (mode == 'e') {
+                swap = tolower(key[j+1]);
+              }
+              else
+              {
+                swap = tolower(key[j-1]);
+              }
               break;
             }
           }
@@ -62,14 +73,23 @@ int main(int argc, char const *argv[]) {
         else
         {
           for (j = 0; j < i; j+=2) {
+            if (j == 0 && mode == 'd') {
+              j++;
+            }
             if (swap == key[j]) {
-              swap = key[j+1];
+              if (mode == 'e') {
+                swap = key[j+1];
+              }
+              else
+              {
+                swap = key[j-1];
+              }
+
               break;
             }
           }
         }
       }
-      else{}
       fputc(swap, fw_output);
     }
   }

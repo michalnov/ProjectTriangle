@@ -8,6 +8,8 @@ int main(int argc, char const *argv[]) {
   FILE *fr_key, *fr_data, *fw_output;
   char opentext[50], outfile[50], keyfile[50];
   
+  printf("\n USE newest version of crypto.c \n");
+  
   printf("Enter key file name: ");
   scanf("%s", keyfile);
   fr_key = fopen(keyfile , "r");
